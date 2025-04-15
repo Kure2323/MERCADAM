@@ -63,7 +63,7 @@ public class Cliente {
     }
 
     private void opciones(Producto p) {
-        
+
         pedido.getPedido().put(p,pedido.getPedido().getOrDefault(p, 0) + 1);
 
         System.out.println("Has añadido " + p.name() + " con un precio de " + p.getPrecio() + "€. Importe" +
@@ -73,6 +73,8 @@ public class Cliente {
             System.out.println();
             AppZonaClientes.imprimirProductos();
         } else {
+
+            mostrarListaProd();
 
             boolean e = true;
 
