@@ -135,8 +135,7 @@ public class Cliente {
     }
 
     /**
-     * Método que ordena la cesta de la compra por valor del Map, es decir, por la cantidad de cada uno de ellos
-     * de mayor a menor.
+     * Ordena la cesta de la compra según la cantidad de cada producto, de mayor a menor.
      */
     private void ordenarLista() {
         List<Map.Entry<Producto, Integer>> lista = new ArrayList<>(pedido.getPedido().entrySet());
@@ -157,7 +156,7 @@ public class Cliente {
     }
 
     /**
-     * Aplica ambas promociones, no sin antes verificar que no han sido aplicadas con anterioridad
+     * Aplica las promociones 3x2 y 10%, verificando primero que no se hayan aplicado previamente.
      */
     private void aplicarPromociones() {
         if (!promociones) {
@@ -176,7 +175,7 @@ public class Cliente {
     }
 
     /**
-     * Muestra por pantalla la lista de productos de la cesta
+     * Muestra la lista de productos en la cesta junto con el importe total."
      */
     public void mostrarListaProd() {
 

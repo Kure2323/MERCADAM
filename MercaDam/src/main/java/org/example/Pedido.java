@@ -8,30 +8,33 @@ public class Pedido {
     private HashMap<Producto, Integer> pedido;
     private double importe_total;
 
-
-    public Pedido(HashMap<Producto, Integer> pedido, double importe_total) {
-        this.pedido = pedido;
-        this.importe_total = importe_total;
-    }
-
+    /**
+     * Inicializa el mapa que almacenará los productos y cantidades del pedido.
+     */
     public Pedido() {
         pedido = new LinkedHashMap<>();
     }
 
+    /**
+     * Realza la operación necesaria para aplicar la promoción de 3x2.
+     * Checkea que existan productos que se repitan 3 o múltiplos de este
+     */
     public void aplicarPromo3x2() {
 
         for (Producto ped : getPedido().keySet()) {
 
             if (getPedido().get(ped) % 3 == 0) {
 
-                setImporte_total(getImporte_total()
-                        - ((getPedido().get(ped)/3)*ped.getPrecio()));
+                setImporte_total(getImporte_total() - ((getPedido().get(ped)/3)*ped.getPrecio()));
 
             }
 
         }
     }
 
+    /**
+     * Realiza la operación necesaria para la aplicación del 10% de descuento
+     */
     public void aplicarPromo10() {
 
         setImporte_total(getImporte_total() - getImporte_total()*0.10);

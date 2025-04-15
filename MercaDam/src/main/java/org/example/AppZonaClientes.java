@@ -84,7 +84,7 @@ public class AppZonaClientes {
     }
 
     /**
-     * Inicia el programa de compra de productos
+     * Crea un nuevo pedido para el cliente y muestra los productos disponibles para añadir a la cesta.
      */
     public static void iniciarCompra() {
 
@@ -94,9 +94,8 @@ public class AppZonaClientes {
     }
 
     /**
-     * Imprime en la terminal la lista de productos a añadir en la lista de la compra con
-     * sus respectivos precios.
-     * LLeva a 'insertar producto'
+     * Muestra en la terminal la lista de productos disponibles
+     * para añadir a la cesta, junto con sus precios. Luego llama al método para insertar productos.
      */
     public static void imprimirProductos() {
 

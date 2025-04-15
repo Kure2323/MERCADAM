@@ -1,0 +1,85 @@
+@startuml
+package "org.example" {
+
+    class AppZonaClientes {
+        - Scanner in
+        - Cliente cliente
+        - String caracteres
+        --
+        + main(args: String[]): void
+        + autenticacion(clientes: List<Cliente>): void
+        + iniciarCompra(): void
+        + imprimirProductos(): void
+        + imprimirDespedida(): void
+    }
+
+    class Cliente {
+        - Scanner in
+        - String usuario
+        - String contrasenya
+        - String direccion
+        - Pedido pedido
+        - boolean promociones
+        --
+        + Cliente(usuario: String, contrasenya: String)
+        + crearPedido(): void
+        + insertarProducto(): void
+        + mostrarListaProd(): void
+        + importePedido(): double
+        + getUsuario(): String
+        + getContrasenya(): String
+        + getDireccion(): String
+        + getPedido(): Pedido
+        + isPromociones(): boolean
+    }
+
+    class Pedido {
+        - HashMap<Producto, Integer> pedido
+        - double importe_total
+        --
+        + Pedido()
+        + aplicarPromo3x2(): void
+        + aplicarPromo10(): void
+        + getPedido(): HashMap<Producto, Integer>
+        + setPedido(pedido: HashMap<Producto, Integer>): void
+        + getImporte_total(): double
+        + setImporte_total(importe: double): void
+    }
+
+    enum Producto {
+        MANZANAS
+        PAN
+        ARROZ
+        POLLO
+        LECHE
+        ACEITE
+        HUEVOS
+        TOMATES
+        PASTA
+        --
+        - double precio
+        + getPrecio(): double
+    }
+
+    class Mercadam {
+        - static Random rdm
+        - static List<Cliente> clientes
+        - static String caracteres
+        --
+        + Mercadam()
+        + generarClientes(): void
+        + getClientes(): List<Cliente>
+    }
+
+    ' Relaciones
+    AppZonaClientes --> Cliente : usa
+    AppZonaClientes --> Mercadam : usa
+    AppZonaClientes --> Producto : muestra
+    Cliente --> Pedido : contiene
+    Cliente --> Producto : agrega
+    Pedido --> Producto : contiene
+    Mercadam --> Cliente : crea y almacena
+
+}
+@enduml
+
