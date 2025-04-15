@@ -14,29 +14,31 @@ public class Cliente {
     private Pedido pedido;
     private boolean promociones;
 
-
-    public Cliente(String usuario, String contrasenya,
-                   String direccion, Pedido pedido,
-                   boolean promociones) {
-        this.usuario = usuario;
-        this.contrasenya = contrasenya;
-        this.direccion = direccion;
-        this.pedido = pedido;
-        this.promociones = promociones;
-    }
-
+    /**
+     * Constructor por defecto de Cliente donde, pedido es null y promociones es false.
+     * @param usuario
+     * @param contrasenya
+     */
     public Cliente(String usuario, String contrasenya) {
         this.usuario=usuario;
         this.contrasenya=contrasenya;
         this.direccion="Calle falsa, 123";
     }
 
+    /**
+     * Crea una instancia de pedido para que el usuario pueda meter productos a la
+     * cesta y realizar propiamente el pedido
+     */
     public void crearPedido() {
 
         pedido = new Pedido();
 
     }
 
+    /**
+     * Pide por teclado el producto que se quiere meter
+     * en la cesta y coteja que efectivamente existe en el enum.
+     */
     public void insertarProducto() {
 
         System.out.println("=============================================");
@@ -47,6 +49,7 @@ public class Cliente {
         System.out.println("=============================================");
 
         for (Producto p : Arrays.stream(Producto.values()).toList()) {
+            //En caso de coincidir se actualiza el importe total hasta ahora, se añade y sale del método
             if (p.name().equalsIgnoreCase(prod)) {
                 pedido.setImporte_total(pedido.getImporte_total() + p.getPrecio());
 
@@ -62,18 +65,27 @@ public class Cliente {
 
     }
 
+    /**
+     * Añade el producto a la cesta, en caso de ya existir, se le suma 1 a su valor.
+     * También se pregunta cada vez que se introduzca un producto si se quiere añadir otro.
+     * @param p
+     */
     private void opciones(Producto p) {
 
+        //Añade el producto al Map y lo actualiza si ya existe
         pedido.getPedido().put(p,pedido.getPedido().getOrDefault(p, 0) + 1);
 
         System.out.println("Has añadido " + p.name() + " con un precio de " + p.getPrecio() + "€. Importe" +
                 "total del carrito: " + pedido.getImporte_total() + ". " +
                 "¿Quieres añadir más productos a tu carrito de la compra? [S/N]:");
+
+        //En caso de seguir queriendo comprar te lleva a imprimirProductos, donde vuelve a empezar
         if (in.next().equalsIgnoreCase("s")) {
             System.out.println();
             AppZonaClientes.imprimirProductos();
         } else {
 
+            //Muestra los productos que están en la cesta junto a su precio total
             mostrarListaProd();
 
             boolean e = true;
@@ -92,36 +104,28 @@ public class Cliente {
                 );
 
                 switch (in.next()) {
+                    //Aplica las promociones de 3x2 y 10%
                     case "1":
 
                         aplicarPromociones();
                         mostrarListaProd();
                         break;
 
+                    //Muestra una lista de los productos de la cesta ordenada de mayor a menor por su cantidad
                     case "2":
 
-                        List<Map.Entry<Producto, Integer>> lista = new ArrayList<>(pedido.getPedido().entrySet());
-                        lista.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-
-                        System.out.println();
-                        System.out.println("========================================");
-                        System.out.println();
-                        System.out.println("RESUMEN DE TU CARRITO DE LA COMPRA:");
-                        System.out.println();
-                        System.out.println("Productos:");
-                        System.out.println();
-
-                        for (Map.Entry<Producto, Integer> entry : lista) {
-                            System.out.println(entry.getValue() + " " + entry.getKey() + " " + entry.getKey().getPrecio() + "€");
-                            System.out.println();
-                        }
+                        ordenarLista();
 
                         break;
+
+                    //Muestra el mensaje de despedida y termina el programma ya que pone 'e'
+                    // en false y sale del do-while
                     default:
                         AppZonaClientes.imprimirDespedida();
                         e = false;
                         break;
                 }
+                //Limpia el buffer, ahora ya empiezo a entender mejor el nextLine() jeje
                 in.nextLine();
 
             } while (e);
@@ -130,6 +134,31 @@ public class Cliente {
         }
     }
 
+    /**
+     * Método que ordena la cesta de la compra por valor del Map, es decir, por la cantidad de cada uno de ellos
+     * de mayor a menor.
+     */
+    private void ordenarLista() {
+        List<Map.Entry<Producto, Integer>> lista = new ArrayList<>(pedido.getPedido().entrySet());
+        lista.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        System.out.println();
+        System.out.println("========================================");
+        System.out.println();
+        System.out.println("RESUMEN DE TU CARRITO DE LA COMPRA:");
+        System.out.println();
+        System.out.println("Productos:");
+        System.out.println();
+
+        for (Map.Entry<Producto, Integer> entry : lista) {
+            System.out.println(entry.getValue() + " " + entry.getKey() + " " + entry.getKey().getPrecio() + "€");
+            System.out.println();
+        }
+    }
+
+    /**
+     * Aplica ambas promociones, no sin antes verificar que no han sido aplicadas con anterioridad
+     */
     private void aplicarPromociones() {
         if (!promociones) {
 
@@ -146,6 +175,9 @@ public class Cliente {
         }
     }
 
+    /**
+     * Muestra por pantalla la lista de productos de la cesta
+     */
     public void mostrarListaProd() {
 
         System.out.println();

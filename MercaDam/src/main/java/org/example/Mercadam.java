@@ -17,6 +17,10 @@ public class Mercadam {
     }
 
 
+    /**
+     * Genera un cliente con un usuario y contraseña totalmente aleatorio
+     * y lo añade a la lista de clientes
+     */
     public static void generarClientes() {
 
         String usuario = "";
@@ -35,6 +39,7 @@ public class Mercadam {
          clientes.add(new Cliente(usuario,contra));
 
     }
+
 
     public static List<Cliente> getClientes() {
         return Collections.unmodifiableList(clientes);
